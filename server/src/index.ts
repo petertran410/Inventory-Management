@@ -7,6 +7,7 @@ import morgan from "morgan";
 
 /* ROUTE IMPORTS */
 import dashboardRoutes from "./routes/dashboardRoutes";
+import productRoutes from "./routes/productRoutes"
 
 /* CONFIGURATION */
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(cors());
 
 /* ROUTES */
 app.use("/dashboard", dashboardRoutes); // (https://localhost:8000/dashboard)
+app.use("/product", productRoutes) // (https://localhost:8000/product)
 
 /* SERVER */
 const port = process.env.PORT || 3000;
