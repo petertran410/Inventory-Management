@@ -61,13 +61,24 @@ export const api = createApi({
     }),
     getProducts: build.query<Product[], string | void>({
       query: (search) => ({
-        url: "/product",
+        url: "/products",
         params: search ? { search } : {},
       }),
       providesTags: ["Products"],
     }),
-    createProducts: build.mutation<Product, NewProduct>({}),
+    createProducts: build.mutation<Product, NewProduct>({
+      query: (newProduct) => ({
+        url: "/products",
+        method: "POST",
+        body: newProduct,
+      }),
+      invalidatesTags: ["Products"],
+    }),
   }),
 });
 
-export const { useGetDashboardMetricsQuery } = api;
+export const {
+  useGetDashboardMetricsQuery,
+  useGetProductsQuery,
+  useCreateProductsMutation,
+} = api;
