@@ -9,16 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = void 0;
+exports.getExpenseByCategory = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getExpenseByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield prisma.users.findMany();
-        res.json(users);
+        const expenseByCategorySummaryRaw = yield prisma.expenseByCategory.findMany({
+            orderBy: {
+                date: "desc",
+            },
+        });
+        const expenseByCategorySummary = expenseByCategorySummaryRaw.map((item) => (Object.assign(Object.assign({}, item), { amount: item.amount.toString() })));
+        res.json(expenseByCategorySummary);
     }
     catch (error) {
-        res.status(500).json({ message: "Error retrieving users" });
+        res.status(500).json({ message: "Error retrieving expense by category" });
     }
 });
-exports.getUsers = getUsers;
+exports.getExpenseByCategory = getExpenseByCategory;
